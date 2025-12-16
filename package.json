@@ -1,0 +1,56 @@
+{
+  "name": "social-automation-pipeline",
+  "version": "1.0.0",
+  "description": "Google Sheets + OAuth + Facebook Token Automation + Image Processing Pipeline",
+  "main": "mainrunner.js",
+  "type": "commonjs",
+  "engines": {
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "start": "node mainrunner.js --run-once",
+    "runner:once": "node mainrunner.js --run-once",
+    "runner:schedule": "node mainrunner.js --schedule",
+    "runner:help": "node mainrunner.js --help",
+    "oauth": "node 0.oauth.js",
+    "sheet:init": "node 0.1.createsheetlayout.js",
+    "fb:refresh": "node 0.2refreshfbtoken.js",
+    "gencontent": "node 1.gencontent.js",
+    "genimage": "node 2.genimage.js",
+    "embedlogo": "node 3.embedlogo.js",
+    "embedtxt": "node 4.embedtxt.js",
+    "web": "node server.js",
+    "server": "node server.js",
+    "dev": "nodemon server.js",
+    "fb:post": "node 5.post2fbgen3.js"
+  },
+  "keywords": [
+    "automation",
+    "google-sheets",
+    "facebook-api",
+    "image-processing",
+    "social-media",
+    "dall-e",
+    "gpt"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "canvas": "^3.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1",
+    "form-data": "^4.0.5",
+    "googleapis": "^137.1.0",
+    "jszip": "^3.10.1",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.11",
+    "open": "^9.1.0",
+    "openai": "^6.10.0",
+    "pureimage": "^0.4.18",
+    "sharp": "^0.34.5",
+    "text-to-svg": "^3.1.5"
+  }
+}

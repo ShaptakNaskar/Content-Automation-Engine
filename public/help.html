@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - Content Automation Engine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container header-content">
+            <h1>Content Automation Engine Help</h1>
+            <nav>
+                <a href="index.html" class="nav-link">Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Workflow Overview</h2>
+            <p>The Content Automation Engine orchestrates a multi-step pipeline to generate, process, and publish
+                content.</p>
+            <div class="steps-list">
+                <h3>1. Generate Sheet Layout</h3>
+                <p><strong>Critical First Step:</strong> Initializes the Google Sheet with required headers. Must be run
+                    once for every new sheet.</p>
+
+                <h3>2. Content Generation</h3>
+                <p>Reads <code>Topic</code> and <code>Company</code> from the sheet. Uses OpenAI to generate captions,
+                    hashtags, and image prompts. Populates respective columns.</p>
+
+                <h3>3. Image Generation</h3>
+                <p>Reads <code>ImagePrompt</code>. Uses DALL-E 3 to generate high-quality images. Uploads them to Google
+                    Drive and updates the sheet with the link.</p>
+
+                <h3>4. Embed Logo</h3>
+                <p>Downloads the generated image and a user-provided <code>LogoUrl</code>. Overlays the logo based on
+                    <code>LogoPosition</code>.</p>
+
+                <h3>5. Embed Text</h3>
+                <p>Overlays <code>TextContent</code> onto the image using settings from <code>TextFont</code>,
+                    <code>TextColor</code>, and <code>TextPosition</code>. Font size is controlled via global
+                    configuration.</p>
+
+                <h3>6. Facebook Post</h3>
+                <p>Publishes the final media and caption to the configured Facebook Page. Updates the sheet status to
+                    "Posted".</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Configuration Guide</h2>
+            <table class="config-table">
+                <tr>
+                    <th>Variable</th>
+                    <th>Description</th>
+                    <th>How to Obtain</th>
+                </tr>
+                <tr>
+                    <td><code>SHEET_URL</code></td>
+                    <td>Full URL of the Google Sheet.</td>
+                    <td>Create a new Google Sheet. Copy the URL from the browser address bar.</td>
+                </tr>
+                <tr>
+                    <td><code>OPENAI_KEY</code></td>
+                    <td>API Key for OpenAI (GPT/DALL-E).</td>
+                    <td>Visit <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a>.
+                        Create a new secret key.</td>
+                </tr>
+                <tr>
+                    <td><code>FB_APPID</code> / <code>FB_APPSECRET</code></td>
+                    <td>Facebook App Credentials.</td>
+                    <td>Create an app in <a href="https://developers.facebook.com/" target="_blank">Meta for
+                            Developers</a>. Navigate to App Settings > Basic.</td>
+                </tr>
+                <tr>
+                    <td><code>FB_USER_ACCESS_TOKEN</code></td>
+                    <td>Initial User Token for Graph API.</td>
+                    <td>Use the <a href="https://developers.facebook.com/tools/explorer/" target="_blank">Graph API
+                            Explorer</a>. Select your App and "Get User Access Token" with `pages_manage_posts` and
+                        `pages_read_engagement` permissions.</td>
+                </tr>
+                <tr>
+                    <td><code>PAGE_ID</code></td>
+                    <td>The ID of the Facebook Page to post to.</td>
+                    <td>On your Facebook Page, go to "About" > "Page Transparency" or find it in the URL/Page Settings.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>LOGO_SIZE</code></td>
+                    <td>Logo scaling factor (0.1 - 1.0).</td>
+                    <td>Set via Dashboard. Default is 0.3 (30% width of base image).</td>
+                </tr>
+                <tr>
+                    <td><code>FONT_SIZE</code></td>
+                    <td>Text overlay font size in pixels.</td>
+                    <td>Set via Dashboard. Default is 30. Background box scales automatically (1.33x).</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="card">
+            <h2>Troubleshooting</h2>
+            <ul>
+                <li><strong>"Invalid Arguments" on Schedule:</strong> Ensure the server was restarted after recent
+                    updates.</li>
+                <li><strong>Facebook Token Expired:</strong> The system attempts to auto-refresh tokens. If this fails,
+                    generate a new User Token via Graph API Explorer and update the configuration.</li>
+                <li><strong>Sheet Permission Errors:</strong> Ensure the service account email (in
+                    <code>credentials.json</code>) has "Editor" access to your Google Sheet.</li>
+                <li><strong>Empty/Missing Cells:</strong> The workflow checks for "Complete" status columns. Clear these
+                    columns if you wish to re-process a row.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Content Automation Engine Made By Sappy for MindEdge Solutions. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        // Check local storage for theme preference
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.setAttribute('data-theme', 'light');
+        }
+    </script>
+</body>
+
+</html>

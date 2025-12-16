@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Automation Engine</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container header-content">
+            <h1>Content Automation Engine</h1>
+            <nav>
+                <a href="help.html" class="nav-link">Help</a>
+                <button id="theme-toggle" class="btn-icon" aria-label="Toggle Dark Mode">
+                    <span class="icon-moon">🌙</span>
+                    <span class="icon-sun">☀️</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- SECTION 1: AUTHENTICATION -->
+        <section class="card" id="auth-section">
+            <h2>Google Authentication</h2>
+            <div class="status-indicator" id="auth-status">
+                <span class="status-dot"></span> <span id="auth-text">Checking status...</span>
+            </div>
+            <div class="actions">
+                <button id="btn-login" class="btn btn-primary">Login to Google</button>
+                <button id="btn-logout" class="btn btn-outline" style="display: none;">Logout</button>
+            </div>
+            <p class="helper-text">Authenticates with Google to access Sheets and Drive. Token is stored securely
+                locally.</p>
+        </section>
+
+        <!-- SECTION 2: FACEBOOK CONFIG (OPTIONAL) -->
+        <section class="card" id="fb-auth-section">
+            <h2>Facebook Page Token</h2>
+            <div class="form-group">
+                <label>Long Term Page Token</label>
+                <div class="input-group">
+                    <input type="text" id="display-page-token" readonly placeholder="Token will appear here...">
+                    <button id="btn-refresh-fb" class="btn btn-secondary">Generate Token</button>
+                </div>
+                <p class="helper-text">Requires FB_APPID, FB_APPSECRET, FB_USER_ACCESS_TOKEN, PAGE_ID in Configuration.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CONFIGURATION -->
+        <section class="card" id="config-section">
+            <h2>Configuration</h2>
+            <p class="helper-text">Environment variables required for the workflow.</p>
+
+            <form id="config-form">
+                <div class="form-group">
+                    <label for="SHEET_URL">Google Sheet URL</label>
+                    <input type="text" id="SHEET_URL" name="SHEET_URL"
+                        placeholder="https://docs.google.com/spreadsheets/...">
+                </div>
+
+                <div class="form-group">
+                    <label for="OPENAI_KEY">OpenAI API Key</label>
+                    <input type="password" id="OPENAI_KEY" name="OPENAI_KEY" placeholder="sk-...">
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="LOGO_SIZE">Logo Size (0.01 - 1)</label>
+                            <input type="number" step="0.01" min="0.01" max="1" id="LOGO_SIZE" name="LOGO_SIZE">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="FONT_SIZE">Font Size (1 - 100)</label>
+                            <input type="number" step="1" min="1" max="100" id="FONT_SIZE" name="FONT_SIZE">
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Facebook Settings (Optional)</h3>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="FB_APPID">App ID</label>
+                            <input type="text" id="FB_APPID" name="FB_APPID">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="FB_APPSECRET">App Secret</label>
+                            <input type="password" id="FB_APPSECRET" name="FB_APPSECRET">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="FB_USER_ACCESS_TOKEN">User Access Token</label>
+                    <input type="password" id="FB_USER_ACCESS_TOKEN" name="FB_USER_ACCESS_TOKEN">
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="PAGE_ID">Page ID</label>
+                            <input type="text" id="PAGE_ID" name="PAGE_ID">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="PAGE_TOKEN">Page Token</label>
+                            <input type="password" id="PAGE_TOKEN" name="PAGE_TOKEN" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">Save Configuration</button>
+                    <span id="config-msg" class="msg"></span>
+                </div>
+            </form>
+        </section>
+
+        <!-- SECTION 4: WORKFLOW ACTIONS -->
+        <section class="card" id="workflow-section">
+            <h2>Workflow Operations</h2>
+            <div class="workflow-grid">
+                <div class="workflow-item" style="border-left: 5px solid #ff4444; background: rgba(255, 68, 68, 0.05);">
+                    <h3>1. Generate Sheet</h3>
+                    <p>Creates headers in the Google Sheet.</p>
+                    <p style="color: #c00; font-size: 0.9em; font-weight: bold; margin-top: 5px;">⚠️ Critical: Run
+                        first!</p>
+                    <button class="btn btn-action" data-script="0.1.createsheetlayout.js">Run Layout Script</button>
+                </div>
+
+                <div class="workflow-item">
+                    <h3>2. Generate Content</h3>
+                    <p>Generates content using OpenAI.</p>
+                    <button class="btn btn-action" data-script="1.gencontent.js">Generate Content</button>
+                </div>
+
+                <div class="workflow-item">
+                    <h3>3. Generate Image</h3>
+                    <p>Creates images based on content.</p>
+                    <button class="btn btn-action" data-script="2.genimage.js">Generate Images</button>
+                </div>
+
+                <div class="workflow-item">
+                    <h3>4. Embed Logo</h3>
+                    <p>Adds branding logo to images.</p>
+                    <button class="btn btn-action" data-script="3.embedlogo.js">Embed Logo</button>
+                </div>
+
+                <div class="workflow-item">
+                    <h3>5. Embed Text</h3>
+                    <p>Overlays text on images.</p>
+                    <button class="btn btn-action" data-script="4.embedtxt.js">Embed Text</button>
+                </div>
+
+                <div class="workflow-item">
+                    <h3>6. Facebook Post</h3>
+                    <p>Post content to Facebook.</p>
+                    <button class="btn btn-action" data-script="5.post2fbgen3.js">Post to Facebook</button>
+                </div>
+            </div>
+            <div class="log-header"
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                <h3>Console Output</h3>
+                <button id="btn-export-log" class="btn btn-secondary" style="font-size: 0.8em; padding: 2px 8px;">Export
+                    Log</button>
+            </div>
+            <div id="workflow-output" class="console-output" style="display:none;"></div>
+        </section>
+
+        <!-- SECTION 5: AUTOMATION & SCHEDULING -->
+        <section class="card" id="automation-section">
+            <h2>Automation & Scheduling</h2>
+
+            <div class="automation-controls">
+                <div class="control-group">
+                    <h3>Run Once</h3>
+                    <p>Execute the full pipeline immediately.</p>
+                    <div class="button-row" style="display: flex; gap: 10px;">
+                        <button class="btn btn-primary" id="btn-run-once" style="flex: 1;">Run Full Workflow</button>
+                        <button class="btn btn-danger" id="btn-stop" style="flex: 1;">Stop Workflow</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Schedule</h3>
+                    <p>Run workflow every X minutes.</p>
+                    <div class="input-group">
+                        <input type="number" id="schedule-interval" placeholder="Minutes (e.g. 60)" min="1">
+                        <button class="btn btn-secondary" id="btn-schedule">Set Schedule</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Content Automation Engine designed By <a href="https://sappys-directory.vercel.app/" target="_blank"
+                    style="color: inherit; text-decoration: underline;">Sappy</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
