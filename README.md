@@ -9,10 +9,10 @@ The Content Automation Engine is a comprehensive social media automation solutio
 ### Web Dashboard Preview
 
 <div align="center" style="max-height: 500px; overflow-y: auto; border: 1px solid #e1e4e8; border-radius: 6px;">
-  <img 
+  <img
     src="https://i.ibb.co/Zp1jY8j8/Screenshot-2025-12-16-at-17-41-04-Content-Automation-Engine.png"
     alt="Content Automation Engine Web Dashboard"
-    style="width: 100%;"
+    style="width: 100%; height: auto;"
   />
 </div>
 
