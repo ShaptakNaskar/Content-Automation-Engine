@@ -4,6 +4,21 @@
 
 The Content Automation Engine is a comprehensive social media automation solution designed to streamline the lifecycle of content creation and publication. This system leverages advanced AI technologies and robust API integrations to facilitate the automated generation of text and imagery, media processing, and scheduled distribution to Facebook platforms. It allows for efficient management of content pipelines through a centralized Web Dashboard.
 
+---
+
+### Web Dashboard Preview
+
+<p align="center">
+  <img 
+    src="https://i.ibb.co/Zp1jY8j8/Screenshot-2025-12-16-at-17-41-04-Content-Automation-Engine.png"
+    alt="Content Automation Engine Web Dashboard"
+    width="800"
+  />
+</p>
+
+---
+
+
 ## Key Features
 
 - **Automated Content Generation**: Utilizes OpenAI GPT models to synthesize high-quality text for social media posts.
